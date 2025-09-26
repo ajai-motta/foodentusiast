@@ -2,6 +2,19 @@ import { getMealItem } from '@/lib/meals'
 import classes from './page.module.css'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
+import { title } from 'node:process'
+export async function generateMetadata({params}){
+  const meal=await getMealItem(params.slug)
+  if(!meal){
+    notFound()
+  }
+  return {
+    title :meal.title,
+    description: meal.summary
+  }
+}
+
+
 export default async function MealItem({params}){
   const meal=await getMealItem(params.slug)
   if(!meal){
